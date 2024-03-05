@@ -1,0 +1,81 @@
+@model List<Book>
+
+@{
+    ViewData["Title"] = "List of Books";
+}
+
+<h1>List of Available Books</h1>
+@* @if(User.IsInRole("adminRole")){ *@
+<p>
+    <button class="btn" style="background-color: rgb(11, 185, 170);"><a asp-action="Create" style="color: white;">Create New Book</a></button>
+</p>
+@* } *@
+
+@if(Model.Count != 0){
+    <div class="text_center">
+        <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Author Name
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Published Year
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    @if(item.Quantity != 0){
+        <tr>
+            <td>
+                @item.AuthorName
+            </td>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.PublishedYear
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+            @if(User.IsInRole("Admin")){ 
+                <td>
+                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a> |
+                <a asp-action="ConfirmLoan" asp-route-id="@item.BookId">Rent</a>
+                </td>
+
+            }else{
+                <td>
+                <a asp-action="ConfirmLoan" asp-route-id="@item.BookId">Rent</a>
+                </td>
+            }
+   
+        </tr>
+    }
+
+
+}
+        </tbody>
+    </table>
+    </div>
+
+}
+else{
+    <div class="text_center">
+    <h3>Regrettably, no book is currently available for rental.</h3>
+    </div>
+
+}
+
+

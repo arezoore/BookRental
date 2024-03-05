@@ -1,0 +1,125 @@
+﻿@model List<UserBook>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome To Zenith</h1>
+
+</div>
+    @if(!User.Identity?.IsAuthenticated == true){
+<div class="text-center">
+    <h4>Zenith is a non-for-profit organization that allows its members to borrow books.</h4>
+    <h3>All the book must be returned after one month.</h3>
+    <h3>In order to have access to the list of books, you need to <a href="http://localhost:5287/Identity/Account/Register">Register</a>, otherwise please <a href="http://localhost:5287/Identity/Account/Login">Login</a>.</h3>
+</div>
+<br>
+<br>
+<br>
+<div class="text-center">
+    <h3 class="display-6">I'm Arezoo Rezai Sabzevar with the Student ID of A01422938</h3>
+</div>
+}else{
+        <br>
+        @if(Model.Count == 0){
+            <h3 style="color: rgb(11, 185, 170);">You haven't rent any book at this moment.</h3>
+        }
+        @* if admin the view should be different  *@
+        else{
+            <div class="text-center">
+                <h4>Here are the Books You have Borrowed From Zenith</h4>
+                <br>
+                <br>
+                <table class="table">
+                    <tr>
+                        <th>
+                        Author Book
+                        </th>
+                        <th>
+                        Book Title
+                        </th>
+                        <th>
+                        Published Year
+                        </th>
+                        <th>
+                        Start Loan Date
+                        </th>
+                        <th>
+                        Expire Loan Date
+                        </th>
+                        <th>Return</th>
+                    </tr>
+                @foreach(var userbook in Model){
+                    @if(userbook.ExpDate < DateTime.UtcNow && userbook.ReturnDate == null){
+                    <tr class="expriredBook">
+                        <td>@userbook.Book?.AuthorName</td>
+                        <td>@userbook.Book?.Title</td>
+                        <td>@userbook.Book?.PublishedYear</td>
+                        <td>@userbook.StartDate</td>
+                        <td> @userbook.ExpDate</td>
+                        @if(userbook.ReturnDate == null){
+                            <td>
+                                 <button class="btn" style="background-color: rgb(245, 61, 61)">
+                                <a href="/Books/ConfirmReturn/@userbook.UserBookId" style="color: white;">Return</a>
+                                </button>
+                            </td>
+                        }else{
+                            <td>@userbook.ReturnDate</td>
+                        }
+
+                    </tr>
+                    }else{
+                    <tr id="@userbook.UserBookId">
+                        <td>@userbook.Book?.AuthorName</td>
+                        <td>@userbook.Book?.Title</td>
+                        <td>@userbook.Book?.PublishedYear</td>
+                        <td>@userbook.StartDate</td>
+                        <td> @userbook.ExpDate</td>
+                        @if(userbook.ReturnDate == null){
+                            <td>
+                                 <button class="btn" style="background-color: rgb(11, 185, 170);">
+                                <a href="/Books/ConfirmReturn/@userbook.UserBookId" style="color: white;">Return</a>
+                                </button>
+                            </td>
+                        }else{
+                            <td>@userbook.ReturnDate</td>
+                        }
+
+                    </tr>
+                    }
+
+                }
+                </table>
+            </div>
+            }
+    }
+
+
+<script>
+
+
+$(document).ready(function() {
+    var table = document.getElementById("EpiredTable");
+    var tableBody = document.getElementById("expiredTR");
+    var divInfo = document.getElementById("expireBookInfo");
+    var span = document.getElementsByClassName("close")[0];
+    var modal = document.getElementById("ExpModal");
+    var expiredElements = $(".expriredBook");
+    if (expiredElements.length != 0){
+        modal.style.display = "block";
+        table.style.display = "block";
+        for(var i=0; i<expiredElements.length; i++){
+            tableBody.innerHTML = expiredElements[i].innerHTML;
+        }
+
+
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+});
+
+
+</script>

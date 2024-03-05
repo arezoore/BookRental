@@ -1,0 +1,53 @@
+@model LoanBook.Models.UserBook; 
+
+@{
+    ViewData["Title"] = "Confirm Your Return";
+}
+
+<h1>Details For The Book You Wanted To Return:<h3>@Model.Book.Title</h3></h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Author Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Book.AuthorName
+        </dd>
+        <dt class = "col-sm-2">
+            Title
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Book.Title
+        </dd>
+        <dt class = "col-sm-2">
+            Published Year
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Book.PublishedYear
+        </dd>
+        <dt class = "col-sm-2">
+            Start Rent Date
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.StartDate
+        </dd>
+        <dt class = "col-sm-2">
+            Expiry Date
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.ExpDate
+        </dd>
+    </dl>
+</div>
+<div>
+    <form asp-action="Return">
+        <input type="hidden" name="UserBookId" value="@Model.UserBookId"/>
+        <input type="submit" value="Return This Book" class="btn" style="background-color: rgb(11, 185, 170); color: white;" />
+        <button class="btn" style="background-color: rgb(199, 81, 81);"><a href="/Home/Index" style="color:white;">Back to List</a></button>
+    </form>
+    <br>
+   @* <button class="btn" style="background-color: rgb(11, 185, 170);"><a asp-action="Edit" asp-route-id="@Model?.BookId" style="color:white;">Loan This Book</a></button> *@
+
+</div>

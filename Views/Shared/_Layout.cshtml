@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LoanBook</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LoanBook.styles.css" asp-append-version="true" />
+    <style>
+    .expriredBook{
+        color: red;
+    }
+</style>
+</head>
+<body style="background-color: rgb(230, 230, 250); min-height:100vh; min-width:100vh">
+    <header style="background-color: rgb(11, 185, 170);">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="color: white;">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LoanBook</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @if(User.Identity.IsAuthenticated){
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Book List</a>
+                            </li>
+                            @if(User.IsInRole("Admin")){
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="RegisteredUser" asp-action="Index">Manage Users</a>
+                                </li>
+                            }
+                        }
+
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+        <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+        </div>
+<div id="ExpModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="expireBookInfo" class="text-center">
+        <h3>The expiration date for the following borrowed books has elapsed. Kindly return them to the Zenith promptly. 
+            Please note that each borrower is allotted a one-month duration for the loan of each book.</h3>
+            <br>
+        <table class="table" id="EpiredTable" style="display: none;">
+            <tr>
+                <th>
+                    Author Book
+                </th>
+                <th>
+                    Book Title
+                </th>
+                <th>
+                    Published Year
+                </th>
+                <th>
+                    Start Loan Date
+                </th>
+                <th>
+                    Expire Loan Date
+                </th>
+                <th>Return</th>
+                </tr>
+ 
+                <tr id="expiredTR" style="color: red;">
+
+                </tr>
+
+                </table>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <footer class="border-top footer text-muted" style="background-color: rgb(11, 185, 170);">
+        <div class="container">
+            &copy; 2024 - LoanBook
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

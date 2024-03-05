@@ -1,0 +1,46 @@
+@model LoanBook.Models.Book
+
+@{
+    ViewData["Title"] = "Confirm your Rent";
+}
+
+<h1>Detail For The Book You Want To Rent:</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Author Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AuthorName)
+        </dd>
+        <dt class = "col-sm-2">
+            Title
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            Published Year
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublishedYear)
+        </dd>
+        <dt class = "col-sm-2">
+            Quantity
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <form asp-action="Loan">
+        <input type="hidden" asp-for="BookId" value="@Model.BookId"/>
+            <input type="submit" value="Rent This Book" class="btn" style="background-color: rgb(11, 185, 170); color: white;" />
+            <button class="btn" style="background-color: rgb(199, 81, 81);"><a asp-action="Index" style="color:white;">Back to List</a></button>
+    </form>
+   @* <button class="btn" style="background-color: rgb(11, 185, 170);"><a asp-action="Edit" asp-route-id="@Model?.BookId" style="color:white;">Loan This Book</a></button> *@
+   
+</div>
