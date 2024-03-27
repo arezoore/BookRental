@@ -8,7 +8,7 @@
 
 @if(Model.Count != 0){
     <div class="text_center">
-        <table class="table">
+        <table class="table table-hover">
         <thead>
         <tr>
             <th>
@@ -39,9 +39,7 @@
                 @item.Email
             </td>
             <td>
-                <button class="btn-change-role btn" id="" onclick="changeRole('@item.Id');"
-                style="background-color: rgb(11, 185, 170); color: white;" 
-                >Change Role</button>
+                <button class="btn-change-role btn btn-success" id="" onclick="changeRole('@item.Id');">Change to Member Role</button>
             </td>
 <input type="hidden" value="@item.Id"> 
         </tr>

@@ -1,0 +1,57 @@
+@page "/RazorBooks"
+@rendermode InteractiveServer
+@inject BookServices bookServices
+
+<PageTitle>List of Books</PageTitle>
+
+<div class="text_center">
+@if (books == null) {
+  <p><em>Loading...</em></p>
+} else {
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author Name</th>
+        <th>Published Year</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in books)
+      {
+        @if(item.Quantity != 0){
+          <tr>
+            <td>@item.Title</td>
+            <td>@item.AuthorName</td>
+            <td>@item.PublishedYear</td>
+            <td>@item.Quantity</td>
+            <td><a  href="Books/Edit/@item.BookId">Edit</a> |
+            <a  href="/Books/Details/@item.BookId">Details</a> |
+            <a href="Books/Delete/@item.BookId">Delete</a> |
+            <a href="Books/ConfirmLoan/@item.BookId">Rent</a>
+            </td>
+          
+          </tr>
+        }
+
+      }
+    </tbody>
+  </table>
+}
+
+</div>
+
+
+
+
+
+
+@code {
+    List<Book> books;
+    protected override async Task OnInitializedAsync()
+    {
+        books = await bookServices.GetBookListAsync();
+    }
+}

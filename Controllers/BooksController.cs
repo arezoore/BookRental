@@ -63,6 +63,7 @@ namespace LoanBook.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -72,6 +73,7 @@ namespace LoanBook.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BookId,AuthorName,Title,PublishedYear,Quantity")] Book book)
         {
@@ -85,6 +87,7 @@ namespace LoanBook.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -104,6 +107,7 @@ namespace LoanBook.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("BookId,AuthorName,Title,PublishedYear,Quantity")] Book book)
         {
@@ -136,6 +140,7 @@ namespace LoanBook.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +160,7 @@ namespace LoanBook.Controllers
 
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

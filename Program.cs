@@ -4,7 +4,9 @@ using LoanBook.Data;
 using LoanBook.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.CodeAnalysis.Options;
-
+using LoanBook.Components;
+using LoanBook.Services;
+// using Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // builder.Services.AddDefaultIdentity<XtendUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services
+.AddRazorComponents()
+.AddInteractiveServerComponents()
+.AddCircuitOptions(options => options.DetailedErrors = true);
 // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddIdentity<XtendUser, IdentityRole>(
@@ -28,6 +33,8 @@ builder.Services.AddIdentity<XtendUser, IdentityRole>(
 .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<BookServices>();
+// builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -51,7 +58,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAntiforgery();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -59,16 +66,18 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-using (var scope = app.Services.CreateScope()) {
-    var services = scope.ServiceProvider;
+// using (var scope = app.Services.CreateScope()) {
+//     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<ApplicationDbContext>();    
-    context.Database.Migrate();
+//     var context = services.GetRequiredService<ApplicationDbContext>();    
+//     context.Database.Migrate();
 
-    var userMgr = services.GetRequiredService<UserManager<XtendUser>>();  
-    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
+//     var userMgr = services.GetRequiredService<UserManager<XtendUser>>();  
+//     var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
 
-    IdentitySeedData.Initialize(context, userMgr, roleMgr).Wait();
-}
+//     IdentitySeedData.Initialize(context, userMgr, roleMgr).Wait();
+// }
+// app.MapRazorComponents<App>()
+// .AddInteractiveServerRenderMode();
 
 app.Run();

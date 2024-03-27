@@ -1,0 +1,28 @@
+@page "/BookDetails/{BookId:int}"
+@inject NavigationManager NavigationManager
+@inject BookServices bookServices
+
+<h1>Book Details</h1>
+
+@if (Book != null)
+{
+    <p>Title: @Book.Title</p>
+    <p>Author: @Book.AuthorName</p>
+    <!-- Add more details as needed -->
+}
+else
+{
+    <p>Book not found.</p>
+}
+
+@code {
+    [Parameter]
+    public int BookId { get; set; }
+
+    private Book Book;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Book = await bookServices.GetBookDetailAsync(BookId);
+    }
+}
