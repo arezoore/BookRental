@@ -6,9 +6,36 @@
 
 @if (Book != null)
 {
-    <p>Title: @Book.Title</p>
-    <p>Author: @Book.AuthorName</p>
-    <!-- Add more details as needed -->
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Author Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Book.AuthorName
+        </dd>
+        <dt class = "col-sm-2">
+            Title
+        </dt>
+        <dd class = "col-sm-10">
+            @Book.Title
+        </dd>
+        <dt class = "col-sm-2">
+            Published Year
+        </dt>
+        <dd class = "col-sm-10">
+            @Book.PublishedYear
+        </dd>
+        <dt class = "col-sm-2">
+            Quantity
+        </dt>
+        <dd class = "col-sm-10">
+            @Book.Quantity
+        </dd>
+    </dl>
+</div>
+
 }
 else
 {
@@ -19,7 +46,7 @@ else
     [Parameter]
     public int BookId { get; set; }
 
-    private Book Book;
+    private Book Book = new Book();
 
     protected override async Task OnInitializedAsync()
     {

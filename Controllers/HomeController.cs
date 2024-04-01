@@ -23,9 +23,9 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var user = await _usermanager.GetUserAsync(HttpContext.User);
-        if(User.Identity.IsAuthenticated)
+        if(User.Identity!.IsAuthenticated)
         {
-            List<UserBook> MyBookList = _context.UserBooks.Where(x=>x.XtendUserId == user.Id)
+            List<UserBook> MyBookList = _context.UserBooks!.Where(x=>x.XtendUserId == user.Id)
             .Include(x=>x.Book)
             .ToList();
             return View(MyBookList);

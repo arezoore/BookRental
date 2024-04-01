@@ -34,6 +34,7 @@ builder.Services.AddIdentity<XtendUser, IdentityRole>(
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<BookServices>();
+builder.Services.AddScoped<MemberServices>();
 // builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -65,6 +66,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+app.MapRazorComponents<App>()
+.AddInteractiveServerRenderMode();
 
 // using (var scope = app.Services.CreateScope()) {
 //     var services = scope.ServiceProvider;

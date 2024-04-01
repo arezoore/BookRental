@@ -6,57 +6,9 @@
 
 <h1>List of Registered Users Without Roles</h1>
 
-@if(Model.Count != 0){
-    <div class="text_center">
-        <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>
-                First Name
-            </th>
-            <th>
-                Family Name
-            </th>
-            <th>
-                Email Address
-            </th>
-            <th>
-                Role
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+<component type="typeof(MembersList)" render-mode="ServerPrerendered" />
 
-        <tr>
-            <td>
-                @item.FirstName
-            </td>
-            <td>
-                @item.FamilyName
-            </td>
-            <td>
-                @item.Email
-            </td>
-            <td>
-                <button class="btn-change-role btn btn-success" id="" onclick="changeRole('@item.Id');">Change to Member Role</button>
-            </td>
-<input type="hidden" value="@item.Id"> 
-        </tr>
 
-}
-
-        </tbody>
-    </table>
-    </div>
-
-}
-else{
-    <div class="text_center">
-    <h3>All the registered users have roles.</h3>
-    </div>
-
-}
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

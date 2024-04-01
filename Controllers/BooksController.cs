@@ -28,20 +28,10 @@ namespace LoanBook.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var rentedBooks = _context.UserBooks.Where(ub=>ub.ReturnDate == null).ToList()
-            .GroupBy(u=>u.BookId)
-            .Select(x=> new{bookid=x.Key, rentedCount = x.Count()}).ToList();
-            var bookList = _context.Books.ToList();
-            foreach(var book in bookList){
-                var rentedBookObj = rentedBooks.Where(x=> x.bookid == book.BookId).FirstOrDefault();
-                if(rentedBookObj != null){
-                    book.Quantity = book.Quantity - rentedBookObj.rentedCount;
-                }
-            }
 
-            return View(bookList);
+            return View();
         }
 
         // GET: Books/Details/5
@@ -224,10 +214,10 @@ namespace LoanBook.Controllers
                 return NotFound();
             }
 
-            var userbook = _context.UserBooks
+            var userbook = await _context.UserBooks
                 .Where(m => m.UserBookId == id)
                 .Include(x=>x.Book)
-                .ToList();
+                .ToListAsync();
             if (userbook == null)
             {
                 return NotFound();
@@ -249,6 +239,12 @@ namespace LoanBook.Controllers
             }
             return NotFound();
 
+        }
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> LoanBookList()
+        {
+            var rentedBooks = await _context.UserBooks.Where(ub=>ub.ReturnDate == null).ToListAsync();
+            return View(rentedBooks);
         }
     }
 }

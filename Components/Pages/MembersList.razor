@@ -1,0 +1,69 @@
+@page "/MembersList"
+@rendermode InteractiveServer
+@inject MemberServices memberServices
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>List of Registered Users Without Roles</PageTitle>
+
+<div class="text_center">
+@if (usersWithouttRole == null) {
+  <p><em>All the registered users have roles.</em></p>
+} else {
+        <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Family Name
+            </th>
+            <th>
+                Email Address
+            </th>
+            <th>
+                Role
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in usersWithouttRole) {
+
+        <tr>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                @item.FamilyName
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                <button class="btn-change-role btn btn-success" id="" onclick="changeRole('@item.Id');">Change to Member Role</button>
+            </td>
+        <input type="hidden" value="@item.Id"> 
+        </tr>
+
+}
+
+        </tbody>
+    </table>
+
+}
+
+</div>
+
+
+
+
+
+
+@code {
+    List<XtendUser> usersWithouttRole = new List<XtendUser>();
+    protected override async Task OnInitializedAsync()
+    {
+        usersWithouttRole = await memberServices.GetMemberListAsync();
+    }
+}

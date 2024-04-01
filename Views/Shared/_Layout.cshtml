@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LoanBook.styles.css" asp-append-version="true" />
-    <style>
-    .expriredBook{
-        color: red;
-    }
-</style>
+
 </head>
 <body>
     <header>
@@ -29,13 +25,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if(User.Identity.IsAuthenticated){
+                        @if(User.Identity!.IsAuthenticated){
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Book List</a>
                             </li>
                             @if(User.IsInRole("Admin")){
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="RegisteredUser" asp-action="Index">Manage Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="LoanBookList">Rented Books List</a>
                                 </li>
                             }
                         }
@@ -80,7 +79,7 @@
                 <th>Return</th>
                 </tr>
  
-                <tr id="expiredTR" style="color: red;">
+                <tr id="expiredTR">
 
                 </tr>
 

@@ -21,12 +21,12 @@ namespace LoanBook.Models
         public string? Title { get; set; }
 
         [Required]
-        [StringLength(4, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
+        [Range(1800, 2040, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
         [Display(Name ="Published Year")]
         public int? PublishedYear { get; set; }
 
         [Required]
-        [StringLength(5, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+        [Range(1, 1000, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
         [Display(Name ="Quanitity")]
         public int? Quantity { get; set; }
         public ICollection<UserBook>? UserBooks { get; set; }

@@ -4,43 +4,13 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details for Book:<h3>@Model.Title</h3></h1>
+<component type="typeof(BookDetails)" render-mode="ServerPrerendered" param-BookId = "@Model.BookId" />
 
 <div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            Author Name
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AuthorName)
-        </dd>
-        <dt class = "col-sm-2">
-            Title
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            Published Year
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PublishedYear)
-        </dd>
-        <dt class = "col-sm-2">
-            Quantity
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-    </dl>
-</div>
-<div>
-   <button class="btn btn-success"><a asp-action="Edit" asp-route-id="@Model?.BookId" style="color: white;">Edit</a></button>
+    @if(User.IsInRole("Admin")){
+           <button class="btn btn-success"><a asp-action="Edit" asp-route-id="@Model.BookId" style="color: white;">Edit</a></button>
+    }
+
    <button class="btn btn-danger"><a asp-action="Index" style="color: white;">Back to List</a></button>
 </div>
 
-<div>
-    <h1>razor</h1>
-    <component type="typeof(BookDetails)" render-mode="ServerPrerendered" />
-</div>

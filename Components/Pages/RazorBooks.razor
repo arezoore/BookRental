@@ -1,6 +1,8 @@
 @page "/RazorBooks"
 @rendermode InteractiveServer
 @inject BookServices bookServices
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>List of Books</PageTitle>
 
@@ -21,16 +23,23 @@
     <tbody>
       @foreach (var item in books)
       {
-        @if(item.Quantity != 0){
+        @if(item.Quantity > 0){
           <tr>
             <td>@item.Title</td>
             <td>@item.AuthorName</td>
             <td>@item.PublishedYear</td>
             <td>@item.Quantity</td>
-            <td><a  href="Books/Edit/@item.BookId">Edit</a> |
-            <a  href="/Books/Details/@item.BookId">Details</a> |
-            <a href="Books/Delete/@item.BookId">Delete</a> |
-            <a href="Books/ConfirmLoan/@item.BookId">Rent</a>
+            <td>
+              @if (IsAdmin){
+                <a  href="Books/Edit/@item.BookId">Edit |</a>
+                <a href="Books/Delete/@item.BookId">Delete |</a> 
+              }
+            @if(IsMember || IsAdmin){
+            <a href="Books/ConfirmLoan/@item.BookId"> Rent |</a>
+            }
+            <a  href="/Books/Details/@item.BookId"> Details</a> 
+
+
             </td>
           
           </tr>
@@ -49,9 +58,15 @@
 
 
 @code {
-    List<Book> books;
+    List<Book> books = new List<Book>();
+    bool IsAdmin;
+    bool IsMember;
     protected override async Task OnInitializedAsync()
     {
         books = await bookServices.GetBookListAsync();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        IsAdmin = user.IsInRole("Admin");
+        IsMember = user.IsInRole("Member");
     }
 }

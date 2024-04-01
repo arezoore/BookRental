@@ -13,7 +13,7 @@ namespace LoanBook.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<XtendUser> _usermanager;
-        private List<XtendUser> _userWithoutRole;
+
 
         public RegisteredUserController(ApplicationDbContext context, UserManager<XtendUser> usermanager)
         {
@@ -22,9 +22,9 @@ namespace LoanBook.Controllers
         }
         public async Task<IActionResult> Index()
         {
-                var usersWithoutRole = _context.Users
+                var usersWithoutRole = await _context.Users
                 .Where(u => !_context.UserRoles.Any(ur => ur.UserId == u.Id))
-                .ToList();
+                .ToListAsync();
 
             return View(usersWithoutRole);
         }

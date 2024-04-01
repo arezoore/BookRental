@@ -1,0 +1,16 @@
+@model List<UserBook>
+
+@{
+    ViewData["Title"] = "List of Rented Books";
+}
+
+<h1>List of Rented Books</h1>
+
+
+<div class="text_center">
+
+<component type="typeof(RentedBooksList)" render-mode="ServerPrerendered" />
+</div>
+
+
+

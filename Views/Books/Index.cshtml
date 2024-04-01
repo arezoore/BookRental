@@ -1,4 +1,4 @@
-@model List<Book>
+
 
 @{
     ViewData["Title"] = "List of Books";
@@ -12,6 +12,12 @@
 }
 
 <div class="text_center">
+    @if(!User.IsInRole("Member") && !User.IsInRole("Admin")){
+        <div class="text_center">
+            <h5 style="color: red;">For book rentals, membership approval from an administrator is required before access is granted.</h5>
+        </div>
+
+    }
 <component type="typeof(RazorBooks)" render-mode="ServerPrerendered" />
 </div>
 
